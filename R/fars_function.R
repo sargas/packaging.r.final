@@ -49,7 +49,7 @@ make_filename <- function(year) {
 
 #' Load months and years of FARS records for given year(s)
 #'
-# This function find, for each year passed to it, a data table without any data
+# This function finds, for each year passed to it, a data table without any data
 # besides the month and year of the record.
 #'
 #' This function will stop with an error if the a dataset for the year does not
