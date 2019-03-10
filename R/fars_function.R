@@ -3,8 +3,10 @@
 #' This function reads in one of the Fatality Analysis Reporting System datasets
 #' provided by the US National Highway Traffic Safety Administration and returns
 #' it with a \code{\link{tbl_df}} class.
-#' This function makes use of the readr and dplyr packages.
 #' This function will stop with an error if the filename does not exist.
+#'
+#' @importFrom readr read_csv
+#' @importFrom dplyr tbl_df
 #'
 #' @param filename A character vector giving the path to the file containing the
 #'   dataset
@@ -54,7 +56,8 @@ make_filename <- function(year) {
 #' This function will stop with an error if the a dataset for the year does not
 #' exist in the working directory or if any empty vector is used.
 #'
-#' This function makes use of the readr and dplyr packages.
+#' @importFrom dplyr mutate select
+#' @importFrom magrittr %>%
 #'
 #' @param years one or more years which is coercable to an integer with the
 #'   \code{\link{as.integer}} function
@@ -88,7 +91,9 @@ fars_read_years <- function(years) {
 #' This function will stop with an error if the a dataset for the year does not
 #' exist in the working directory or if any empty vector is used.
 #'
-#' This function makes use of the readr and dplyr packages.
+#' @importFrom dplyr bind_rows group_by summarize
+#' @importFrom tidyr spread
+#' @importFrom magrittr %>%
 #'
 #' @param years one or more years which is coercable to an integer with the
 #'   \code{\link{as.integer}} function
@@ -117,7 +122,9 @@ fars_summarize_years <- function(years) {
 #' plot a state number that is not in the dataset for that year. Additionally,
 #' an error with be shown if a dataset for the specified year does not exist.
 #'
-#' This function makes use of the readr, dplyr, maps, and graphics packages.
+#' @importFrom dplyr filter
+#' @importFrom maps map
+#' @importFrom graphics points
 #'
 #' @param state.num a single integer value identifying the state
 #' @param year a year which is coercable to an integer with the
