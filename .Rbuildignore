@@ -1,3 +1,5 @@
+^appveyor\.yml$
+^\.travis\.yml$
 ^packaging\.r\.Rproj$
 ^packaging\.r\.final.Rproj$
 ^\.Rproj\.user$
