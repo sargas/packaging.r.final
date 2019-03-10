@@ -55,7 +55,7 @@ make_filename <- function(year) {
 #' This function will stop with an error if the a dataset for the year does not
 #' exist in the working directory or if any empty vector is used.
 #'
-#' @importFrom dplyr mutate select
+#' @importFrom dplyr mutate_ select_
 #' @importFrom magrittr %>%
 #'
 #' @param years one or more years which is coercable to an integer with the
@@ -72,8 +72,8 @@ fars_read_years <- function(years) {
                 file <- make_filename(year)
                 tryCatch({
                         dat <- fars_read(file)
-                        dplyr::mutate(dat, year = year) %>%
-                                dplyr::select(MONTH, year)
+                        dplyr::mutate_(dat, year = ~year) %>%
+                                dplyr::select_(.dots=c('MONTH', 'year'))
                 }, error = function(e) {
                         warning("invalid year: ", year)
                         return(NULL)
@@ -90,8 +90,8 @@ fars_read_years <- function(years) {
 #' This function will stop with an error if the a dataset for the year does not
 #' exist in the working directory or if any empty vector is used.
 #'
-#' @importFrom dplyr bind_rows group_by summarize
-#' @importFrom tidyr spread
+#' @importFrom dplyr bind_rows group_by_ summarize_
+#' @importFrom tidyr spread_
 #' @importFrom magrittr %>%
 #'
 #' @param years one or more years which is coercable to an integer with the
@@ -108,9 +108,9 @@ fars_read_years <- function(years) {
 fars_summarize_years <- function(years) {
         dat_list <- fars_read_years(years)
         dplyr::bind_rows(dat_list) %>%
-                dplyr::group_by(year, MONTH) %>%
-                dplyr::summarize(n = n()) %>%
-                tidyr::spread(year, n)
+                dplyr::group_by_(~ year, ~ MONTH) %>%
+                dplyr::summarize_(n = ~ n()) %>%
+                tidyr::spread_(key_col='year', value_col='n')
 }
 
 #' Show reported fatalities on a state map
@@ -121,7 +121,7 @@ fars_summarize_years <- function(years) {
 #' plot a state number that is not in the dataset for that year. Additionally,
 #' an error with be shown if a dataset for the specified year does not exist.
 #'
-#' @importFrom dplyr filter
+#' @importFrom dplyr filter_
 #' @importFrom maps map
 #' @importFrom graphics points
 #'
@@ -143,7 +143,7 @@ fars_map_state <- function(state.num, year) {
 
         if(!(state.num %in% unique(data$STATE)))
                 stop("invalid STATE number: ", state.num)
-        data.sub <- dplyr::filter(data, STATE == state.num)
+        data.sub <- dplyr::filter_(data, ~ STATE == state.num)
         if(nrow(data.sub) == 0L) {
                 message("no accidents to plot")
                 return(invisible(NULL))
