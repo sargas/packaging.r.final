@@ -20,7 +20,6 @@ it with a \code{\link{tbl_df}} class.
 This function will stop with an error if the filename does not exist.
 }
 \examples{
-fars_read('data/accident_2013.csv.bz2')
 fars_read(make_filename(2015))
 
 }

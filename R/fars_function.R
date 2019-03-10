@@ -14,7 +14,6 @@
 #' @return This function returns a data frame parsed from the given dataset
 #'
 #' @examples
-#' fars_read('data/accident_2013.csv.bz2')
 #' fars_read(make_filename(2015))
 #'
 #' @export
@@ -45,7 +44,7 @@ fars_read <- function(filename) {
 #' @export
 make_filename <- function(year) {
         year <- as.integer(year)
-        sprintf("accident_%d.csv.bz2", year)
+        system.file("extdata", sprintf("accident_%d.csv.bz2", year), package="packaging.r.final")
 }
 
 #' Load months and years of FARS records for given year(s)
